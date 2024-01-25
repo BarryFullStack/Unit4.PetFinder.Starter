@@ -10,7 +10,7 @@ const PORT = 8080;
 // GET - / - returns homepage
 app.get('/', (req, res) => {
     // serve up the public folder as static index.html file
-
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 // hello world route
@@ -21,31 +21,34 @@ app.get('/api', (req, res) => {
 // get all pets from the database
 app.get('/api/v1/pets', (req, res) => {
     // send the pets array as a response
-
+    //respond with the gathered pets array information as json data
+    res.json(pets);
 });
 
 // get pet by owner with query string
 app.get('/api/v1/pets/owner', (req, res) => {
     // get the owner from the request
-
-
+    //query the owener name and set it as owner
+    const owner = req.query.owner.toLowerCase();
     // find the pet in the pets array
-    const pet = pets.find(pet => pet.owner === owner);
+    const pet = pets.filter(pet => pet.owner.toLowerCase() === owner);
 
     // send the pet as a response
-
+    res.send(pet);
 });
 
 // get pet by name
 app.get('/api/v1/pets/:name', (req, res) => {
     // get the name from the request
-
+    //define request variable as name
+    const name = req.params.name.toLowerCase();
+    console.log(name);
 
     // find the pet in the pets array
-    const pet = pets.find(pet => pet.name === name);
-
+    const pet = pets.find(pet => pet.name.toLowerCase() === name);
+    console.log(pet)
     // send the pet as a response
-
+    res.send(pet);
 });
 
 app.listen(PORT, () => {
